@@ -1,9 +1,21 @@
-import { NativeModules } from 'react-native';
+import { NativeModules, Platform } from 'react-native';
+
+// "ph://.../L0/001": "/var/.../Documents/....jpg"
+interface GetImagesForAssetsResponse {
+  [key: string]: string;
+}
 
 type PhotoLibraryAssetsType = {
-  multiply(a: number, b: number): Promise<number>;
+  getImagesForAssets(
+    assetsIds: string[],
+    isThumbnail: boolean
+  ): Promise<GetImagesForAssetsResponse>;
 };
 
-const { PhotoLibraryAssets } = NativeModules;
+let RNPhotoLibraryAssets = {};
 
-export default PhotoLibraryAssets as PhotoLibraryAssetsType;
+if (Platform.OS === 'ios') {
+  RNPhotoLibraryAssets = NativeModules.RNPhotoLibraryAssets;
+}
+
+export default RNPhotoLibraryAssets as PhotoLibraryAssetsType;

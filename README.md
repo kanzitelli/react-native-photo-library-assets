@@ -5,22 +5,30 @@ RNPhotoLibraryAssets helps to get access to iOS photo library assets (full path 
 ## Installation
 
 ```sh
-npm install react-native-photo-library-assets
+yarn add react-native-photo-library-assets
 ```
 
 ## Usage
 
 ```js
-import PhotoLibraryAssets from "react-native-photo-library-assets";
+import RNPhotoLibraryAssets from "react-native-photo-library-assets";
 
 // ...
 
-const result = await PhotoLibraryAssets.multiply(3, 7);
+const assetsIds = [
+    '6065FBB8-AD2C-4EDE-B80B-E2193BC229F9/L0/001',
+    'ph://83489525-944D-42A8-9896-E9753EA03633/L0/001',
+];
+const isThumbnail = true;
+const result = await RNPhotoLibraryAssets.getImagesForAssets(assetsIds, isThumbnail);
+
+/*
+result: {
+    '6065FBB8-AD2C-4EDE-B80B-E2193BC229F9/L0/001': '/var/.../Documents/thumbnail_6065FBB8-AD2C-4EDE-B80B-E2193BC229F9.JPG,
+    'ph://83489525-944D-42A8-9896-E9753EA03633/L0/001': '/var/.../Documents/thumbnail_83489525-944D-42A8-9896-E9753EA03633/L0/001.JPG,
+}
+*/
 ```
-
-## Contributing
-
-See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
 
 ## License
 
