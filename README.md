@@ -15,6 +15,7 @@ import RNPhotoLibraryAssets from "react-native-photo-library-assets";
 
 // ...
 
+// assets ph://... can be gathered from react-native-community/cameraroll
 const assetsIds = [
     '6065FBB8-AD2C-4EDE-B80B-E2193BC229F9/L0/001',
     'ph://83489525-944D-42A8-9896-E9753EA03633/L0/001',
@@ -29,6 +30,13 @@ result: {
 }
 */
 ```
+
+## Todos
+1. Move all logic of gathering photo library assets to this library, so there would be only one request to native side instead of getting assets first and then send request to this library.
+2. Examples using Image and FastImage.
+3. Show benchmarks
+4. Put more details of how the library works
+5. 1.0 version must be a full replacement of react-native-community/react-native-image-picker library. It should be fully React Native Photos Library implementation with full customization and multiple select.
 
 ## License
 
