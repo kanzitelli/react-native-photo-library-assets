@@ -32,11 +32,13 @@ result: {
 ```
 
 ## Todos
-1. Move all logic of gathering photo library assets to this library, so there would be only one request to native side instead of getting assets first and then send request to this library.
-2. Examples using Image and FastImage.
-3. Show benchmarks
-4. Put more details of how the library works
-5. 1.0 version must be a full replacement of react-native-community/react-native-image-picker library. It should be fully React Native Photos Library implementation with full customization and multiple select.
+1. Rewrite logic for generating image for uploading to a server
+2. index.d.ts
+3. Move all logic of gathering photo library assets to this library, so there would be only one request to native side instead of getting assets first and then send request to this library
+4. Examples using Image and FastImage
+5. Show benchmarks
+6. Put more details of how the library works
+7. 1.0 version must be a full replacement of react-native-community/react-native-image-picker library. It should be fully React Native Photos Library implementation with full customization and multiple select
 
 ## License
 
