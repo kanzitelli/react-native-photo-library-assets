@@ -20,25 +20,36 @@ const assetsIds = [
     '6065FBB8-AD2C-4EDE-B80B-E2193BC229F9/L0/001',
     'ph://83489525-944D-42A8-9896-E9753EA03633/L0/001',
 ];
-const isThumbnail = true;
-const result = await RNPhotoLibraryAssets.getImagesForAssets(assetsIds, isThumbnail);
-
+const thumbnails = await RNPhotoLibraryAssets.getThumbnailsForAssets(assetsIds);
 /*
-result: {
+all images are around 300x300 and compressed
+
+response: { [key: string]: string }
+{
     '6065FBB8-AD2C-4EDE-B80B-E2193BC229F9/L0/001': '/var/.../Documents/thumbnail_6065FBB8-AD2C-4EDE-B80B-E2193BC229F9.JPG,
     'ph://83489525-944D-42A8-9896-E9753EA03633/L0/001': '/var/.../Documents/thumbnail_83489525-944D-42A8-9896-E9753EA03633/L0/001.JPG,
 }
 */
+
+const imageUri = await RNPhotoLibraryAssets.getImagesForAssets(assetsIds[0]);
+/*
+generated image is going to be around 100kb and image is resized with
+interpolation quality so it should be good enough to be uploaded
+to a server (e.g. chat photos)
+
+response: string
+'/var/.../Documents/thumbnail_6065FBB8-AD2C-4EDE-B80B-E2193BC229F9.JPG'
+*/
 ```
 
 ## Todos
-1. Rewrite logic for generating image for uploading to a server
-2. index.d.ts
-3. Move all logic of gathering photo library assets to this library, so there would be only one request to native side instead of getting assets first and then send request to this library
-4. Examples using Image and FastImage
-5. Show benchmarks
-6. Put more details of how the library works
-7. 1.0 version must be a full replacement of react-native-community/react-native-image-picker library. It should be fully React Native Photos Library implementation with full customization and multiple select
+🔳 Rewrite logic of image generation for uploading to a server
+⬜️ index.d.ts
+⬜️ Move all logic of gathering photo library assets to this library, so there would be only one request to native side instead of getting assets first and then send request to this library
+⬜️ Examples using Image and FastImage
+⬜️ Show benchmarks
+⬜️ Put more details of how the library works
+⬜️ 1.0 version must be a full replacement of react-native-community/react-native-image-picker library. It should be fully React Native Photos Library implementation with full customization and multiple select
 
 ## License
 
