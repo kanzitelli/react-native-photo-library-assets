@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-
-		5E555C0D2413F4C50049A1A2 /* PhotoLibraryAssets.mm in Sources */ = {isa = PBXBuildFile; fileRef = B3E7B5891CC2AC0600A0062D /* PhotoLibraryAssets.mm */; };
+		0C884D6D248FA61B001AE407 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C884D6C248FA61B001AE407 /* UIImage+Resize.m */; };
+		5E555C0D2413F4C50049A1A2 /* PhotoLibraryAssets.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E7B5891CC2AC0600A0062D /* PhotoLibraryAssets.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -24,10 +24,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0C884D6B248FA573001AE407 /* UIImage+Resize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
+		0C884D6C248FA61B001AE407 /* UIImage+Resize.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Resize.m"; sourceTree = "<group>"; };
 		134814201AA4EA6300B7C361 /* libPhotoLibraryAssets.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPhotoLibraryAssets.a; sourceTree = BUILT_PRODUCTS_DIR; };
-
 		B3E7B5881CC2AC0600A0062D /* PhotoLibraryAssets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoLibraryAssets.h; sourceTree = "<group>"; };
-		B3E7B5891CC2AC0600A0062D /* PhotoLibraryAssets.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PhotoLibraryAssets.mm; sourceTree = "<group>"; };
+		B3E7B5891CC2AC0600A0062D /* PhotoLibraryAssets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoLibraryAssets.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,9 +53,10 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
-
+				0C884D6C248FA61B001AE407 /* UIImage+Resize.m */,
+				0C884D6B248FA573001AE407 /* UIImage+Resize.h */,
 				B3E7B5881CC2AC0600A0062D /* PhotoLibraryAssets.h */,
-				B3E7B5891CC2AC0600A0062D /* PhotoLibraryAssets.mm */,
+				B3E7B5891CC2AC0600A0062D /* PhotoLibraryAssets.m */,
 				134814211AA4EA7D00B7C361 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -116,8 +118,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-
-				5E555C0D2413F4C50049A1A2 /* PhotoLibraryAssets.mm in Sources */,
+				5E555C0D2413F4C50049A1A2 /* PhotoLibraryAssets.m in Sources */,
+				0C884D6D248FA61B001AE407 /* UIImage+Resize.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
