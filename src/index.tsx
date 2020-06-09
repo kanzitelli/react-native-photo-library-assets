@@ -1,15 +1,17 @@
 import { NativeModules, Platform } from 'react-native';
 
 // "ph://.../L0/001": "/var/.../Documents/....jpg"
-interface GetImagesForAssetsResponse {
+interface GetThumbnailsForAssetsResponse {
   [key: string]: string;
 }
 
+type GetImagesForAssetsResponse = string;
+
 type PhotoLibraryAssetsType = {
-  getImagesForAssets(
-    assetsIds: string[],
-    isThumbnail: boolean
-  ): Promise<GetImagesForAssetsResponse>;
+  getThumbnailsForAssets(
+    assetsIds: string[]
+  ): Promise<GetThumbnailsForAssetsResponse>;
+  getImagesForAssets(assetId: string): Promise<GetImagesForAssetsResponse>;
 };
 
 let RNPhotoLibraryAssets = {};
