@@ -73,27 +73,27 @@ RCT_REMAP_METHOD(getImageForAsset,
                 UIImage *image = contentEditingInput.displaySizeImage;
 
                 CGFloat RNPLAImageQuality = 1.0 / sqrt(2.0);
-                CGFloat RNPLAImageSize = 1024 * 100; // 100kb
+                CGFloat RNPLAImageSize = 1024 * 512; // ~0.5MB
 
                 NSData  *imageData    = UIImageJPEGRepresentation(image, RNPLAImageQuality);
                 double   factor       = 1.0;
                 double   adjustment   = RNPLAImageQuality;
                 CGSize   size         = image.size;
                 CGSize   currentSize  = size;
-                UIImage *currentImage = contentEditingInput.displaySizeImage;
+                UIImage *currentImage = image;
             
                 while (imageData.length >= RNPLAImageSize)
                 {
                     factor      *= adjustment;
                     currentSize  = CGSizeMake(roundf(size.width * factor), roundf(size.height * factor));
-                    currentImage = [currentImage resizedImage:currentSize interpolationQuality:RNPLAImageQuality];
+                    currentImage = [image resizedImage:currentSize interpolationQuality:RNPLAImageQuality];
                     imageData    = UIImageJPEGRepresentation(currentImage, RNPLAImageQuality);
                 }
                 
                 // Saving image
                 [PhotoLibraryAssets _saveImage:currentImage toFileName:imageFilename];
                 
-                resolve(imageFilename);
+                resolve([PhotoLibraryAssets _fullDocumentsDirPath:imageFilename]);
             }];
         } else {
             reject(@"asset is not an image", @"asset is not an image", nil);
