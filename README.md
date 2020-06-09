@@ -31,7 +31,7 @@ response: { [key: string]: string }
 }
 */
 
-const imageUri = await RNPhotoLibraryAssets.getImagesForAssets(assetsIds[0]);
+const imageUri = await RNPhotoLibraryAssets.getImageForAsset(assetsIds[0]);
 /*
 generated image is going to be around 100kb and image is resized with
 interpolation quality so it should be good enough to be uploaded
@@ -44,12 +44,19 @@ response: string
 
 ## Todos
 🔳 Rewrite logic of image generation for uploading to a server
+
 ⬜️ index.d.ts
+
 ⬜️ Move all logic of gathering photo library assets to this library, so there would be only one request to native side instead of getting assets first and then send request to this library
+
 ⬜️ Examples using Image and FastImage
+
 ⬜️ Show benchmarks
+
 ⬜️ Put more details of how the library works
+
 ⬜️ 1.0 version must be a full replacement of react-native-community/react-native-image-picker library. It should be fully React Native Photos Library implementation with full customization and multiple select
+
 
 ## License
 
