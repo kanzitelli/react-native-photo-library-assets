@@ -1,14 +1,14 @@
 #import "PhotoLibraryAssets.h"
 
 #import <Photos/Photos.h>
+#import "UIImage+Resize.h"
 
 @implementation PhotoLibraryAssets
 
 RCT_EXPORT_MODULE(RNPhotoLibraryAssets)
 
-RCT_REMAP_METHOD(getImagesForAssets,
+RCT_REMAP_METHOD(getThumbnailsForAssets,
                  withAssets:(nonnull NSArray<NSString *> *)assetsIds
-                 withIsThumbnail:(nonnull BOOL*)isThumbnail
                  withResolver:(RCTPromiseResolveBlock)resolve
                  withRejecter:(RCTPromiseRejectBlock)reject)
 {
@@ -25,22 +25,16 @@ RCT_REMAP_METHOD(getImagesForAssets,
         
         [assets enumerateObjectsUsingBlock:^(PHAsset *asset, NSUInteger idx, BOOL *stop) {
             if (asset.mediaType == PHAssetMediaTypeImage) {
-                CGSize imageSize = CGSizeMake(750, 750);
-                NSString *imagePrefix = @"image";
-                
-                if (isThumbnail) {
-                    imageSize = CGSizeMake(250, 250);
-                    imagePrefix = @"thumbnail";
-                }
+                CGSize imageSize = CGSizeMake(300, 300);
+                NSString *prefix = @"thumbnail";
                         
                 // Getting thumbnail for asset
                 UIImage *thumbnail = [PhotoLibraryAssets _getImageForAsset:asset withSize:imageSize];
 
                 // Generating file path
-                NSString *localIdWithoutPh = [asset.localIdentifier stringByReplacingOccurrencesOfString:@"ph://" withString:@""];
-                NSLog(@"%@ -- %@", localIdWithoutPh, asset.localIdentifier);
-                NSString *assetLocalId = [[localIdWithoutPh componentsSeparatedByString:@"/"] firstObject]; // removes characters /L0/001
-                NSString *thumbnailFilename = [NSString stringWithFormat:@"%@_%@.JPG", imagePrefix, assetLocalId];
+                NSString *thumbnailFilename = [PhotoLibraryAssets _filePathForAsset:asset withPrefix:prefix];
+                
+                // Saving file
                 [PhotoLibraryAssets _saveImage:thumbnail toFileName:thumbnailFilename];
                 
                 // Saving to data dictionary
@@ -53,6 +47,67 @@ RCT_REMAP_METHOD(getImagesForAssets,
     } else {
         reject(@"no assets", @"no assets", nil);
     }
+}
+
+RCT_REMAP_METHOD(getImageForAsset,
+                 withAsset:(nonnull NSString *)assetId
+                 withResolver:(RCTPromiseResolveBlock)resolve
+                 withRejecter:(RCTPromiseRejectBlock)reject)
+{
+    NSString *_assetId = [assetId stringByReplacingOccurrencesOfString:@"ph://" withString:@""];
+    PHAsset *asset = [PhotoLibraryAssets _getAssetById:_assetId];
+    
+    if (asset) {
+        if (asset.mediaType == PHAssetMediaTypeImage) {
+            NSString *prefix = @"image";
+
+            // Generating file path
+            NSString *imageFilename = [PhotoLibraryAssets _filePathForAsset:asset withPrefix:prefix];
+            
+            // Getting image for resizing
+            PHContentEditingInputRequestOptions *options = [PHContentEditingInputRequestOptions new];
+            options.networkAccessAllowed = YES;
+
+            [asset requestContentEditingInputWithOptions:options
+                                   completionHandler:^(PHContentEditingInput * _Nullable contentEditingInput, NSDictionary * _Nonnull info) {
+                UIImage *image = contentEditingInput.displaySizeImage;
+
+                CGFloat RNPLAImageQuality = 1.0 / sqrt(2.0);
+                CGFloat RNPLAImageSize = 1024 * 100; // 100kb
+
+                NSData  *imageData    = UIImageJPEGRepresentation(image, RNPLAImageQuality);
+                double   factor       = 1.0;
+                double   adjustment   = RNPLAImageQuality;
+                CGSize   size         = image.size;
+                CGSize   currentSize  = size;
+                UIImage *currentImage = contentEditingInput.displaySizeImage;
+            
+                while (imageData.length >= RNPLAImageSize)
+                {
+                    factor      *= adjustment;
+                    currentSize  = CGSizeMake(roundf(size.width * factor), roundf(size.height * factor));
+                    currentImage = [currentImage resizedImage:currentSize interpolationQuality:RNPLAImageQuality];
+                    imageData    = UIImageJPEGRepresentation(currentImage, RNPLAImageQuality);
+                }
+                
+                // Saving image
+                [PhotoLibraryAssets _saveImage:currentImage toFileName:imageFilename];
+                
+                resolve(imageFilename);
+            }];
+        } else {
+            reject(@"asset is not an image", @"asset is not an image", nil);
+        }
+    } else {
+        reject(@"no assets", @"no assets", nil);
+    }
+}
+
++ (NSString *)_filePathForAsset:(PHAsset *)asset withPrefix:(NSString *)prefix
+{
+    NSString *localIdWithoutPh = [asset.localIdentifier stringByReplacingOccurrencesOfString:@"ph://" withString:@""];
+    NSString *assetLocalId = [[localIdWithoutPh componentsSeparatedByString:@"/"] firstObject]; // removes characters /L0/001
+    return [NSString stringWithFormat:@"%@_%@.JPG", prefix, assetLocalId];
 }
 
 + (NSString *)_fullDocumentsDirPath:(NSString *)forFilename
