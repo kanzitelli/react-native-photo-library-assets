@@ -1,6 +1,6 @@
 {
   "name": "react-native-photo-library-assets",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "RNPhotoLibraryAssets helps to get access to iOS photo library assets (full path to compressed .jpg or .png) and generates thumbnails or images which are ready to be uploaded to your server.",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
